@@ -1,0 +1,101 @@
+﻿@model AquariumMVC.DTO.addproduct
+@{
+    ViewData["Title"] = "addProduct";
+    Layout = "~/Views/Shared/admin.cshtml";
+}
+
+<h1>addProduct</h1>
+
+@* 假设您使用 Razor 视图引擎 *@
+@{
+    ViewBag.Title = "添加产品";
+}
+
+@if (ViewBag.insert != null)
+{
+    <script>
+        window.onload = function () {
+            var msg = "@Html.Raw(ViewBag.insert)";
+            alert(msg);
+            
+        };
+    </script>
+}
+
+<h2>添加产品</h2>
+
+<form asp-action="addProduct" method="post" enctype="multipart/form-data">
+    <div>
+        <label for="typeSelect">產品類型：</label>
+        @Html.DropDownListFor(model => model.Type, (IEnumerable<SelectListItem>)ViewBag.Types, "選擇類型", new { @class = "form-control", @id = "typeSelect" ,@style = "width: 200px;" })
+    </div>
+    <br />
+    <div>
+        <label for="Name">產品名稱：</label>
+        <input type="text" name="Name" value="" />
+    </div>
+    
+    <div>
+        <label for="kindSelect">種類：</label>
+        <select id="kindSelect" name="Kind">
+            <option value="">請選擇種類</option>
+            <!-- 选项将通过 JavaScript 动态加载 -->
+        </select>
+    </div>
+    <div>
+        <label for="Size">設定尺寸：</label>
+        <input type="text" name="Size" value="" />
+    </div>
+    <div>
+        <label for="Price">設定價格：</label>
+        <input type="number" name="Price" value="0" />
+    </div>
+    <div>
+        <label for="Amount">設定數量：</label>
+        <input type="number" name="Amount" value="0" />
+    </div>
+    <div>
+        <label for="Memo">介紹：</label>
+        <textarea name="Memo"></textarea>
+    </div>
+    <div>
+        <label for="ImageFile">上傳圖片：</label>
+        <input type="file" name="ImageFile" />
+    </div>
+    
+    
+
+    <input type="submit" value="新增產品" />
+</form>
+
+@section Scripts {
+    <script>
+        document.getElementById('typeSelect').addEventListener('change', function () {
+            var selectedType = this.value;
+            var kindSelect = document.getElementById('kindSelect');
+
+            // 清空现有的种类选项
+            kindSelect.innerHTML = '<option value="">請選擇種類</option>';
+
+            if (selectedType) {
+                // 发送 AJAX 请求获取种类数据
+                fetch('/Back/GetKinds?type=' + encodeURIComponent(selectedType))
+                    .then(response => response.json())
+                    .then(data => {
+                        // 使用响应数据填充种类选项
+                        data.forEach(kind => {
+                            var option = document.createElement('option');
+                            option.value = kind;
+                            option.textContent = kind;
+                            kindSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Unable to get kinds.', error));
+            }
+        });
+
+    </script>
+}
+
+
+

@@ -1,0 +1,74 @@
+﻿@model IEnumerable<AquariumMVC.DTO.memberDTO>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/admin.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="addMember">新增會員</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Account)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Password)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsAdmin)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Account)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Password)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsAdmin)
+            </td>
+            <td>
+                <a asp-action="edit_member" asp-route-id="@item.Account" >Edit</a> |
+                <a href="#" onclick="confirm_delete(this)" data-aid="@item.Account"> Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<script>
+    function confirm_delete(buttonElement) {
+        var acc = buttonElement.getAttribute('data-aid');
+        if (confirm("您確定要刪除嗎？")) {
+            var url = '@Url.Action("delete_Member","Back")' + '?id=' + acc;
+            window.location.href = url;
+        }
+    }
+</script>

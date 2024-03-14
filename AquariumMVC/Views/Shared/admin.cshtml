@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - AquariumMVC</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/AquariumMVC.styles.css" asp-append-version="true" />
+    <link href="~/easyui/themes/default/easyui.css" rel="stylesheet" />
+    <link href="~/easyui/themes/icon.css" rel="stylesheet" />
+    <link href="~/css/styleindex.css" rel="stylesheet" />
+    <style>
+        [class^=tree-text] {
+            text-decoration: none;
+            color: #232b2b;
+            font-family: 'Times New Roman', Times, serif
+        }
+
+        .tree-text-title {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .tree-text-node {
+            font-weight: 400;
+            font-size: 14px;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+
+        <nav class="navbar navbar-expand-lg navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AquariumMVC</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-lg-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Back" asp-action="Index">所有會員</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Back" asp-action="addProduct">新增商品</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Back" asp-action="Order">用戶交易紀錄</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Back" asp-action="editProduct">修改商品</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="javascript:void(0)" onclick="confirmLogout()">登出</a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+
+    </header>
+    <div class="container">
+        <div class="row">
+            <div class="tree-view-pane1 col-2">
+                <ul class="easyui-tree">
+                    <li>
+                        <span><a asp-area="" asp-controller="Home" asp-action="Index" class="tree-text-title">所有產品</a></span>
+                    </li>
+                    <li>
+                        <span>
+                            <a asp-area="" asp-controller="Home" asp-action="product_group" asp-route-type="活體" class="tree-text-title" data-options="iconCls:'icon-ok'">水族活體</a> @* 產生Home/product-group?kind=活體 *@
+                        </span>
+                        <ul>
+                            <li>
+                                <span><a asp-area="" asp-controller="Home" asp-action="product_live" asp-route-name="大型魚" class="tree-text-node">大型魚</a></span>
+                            </li>
+                            <li>
+                                <span><a asp-area="" asp-controller="Home" asp-action="product_live" asp-route-name="小型魚" class="tree-text-node">小型魚</a></span>
+                            </li>
+                            <li>
+                                <span><a asp-area="" asp-controller="Home" asp-action="product_live" asp-route-name="鯉科" class="tree-text-node">鯉科</a></span>
+                            </li>
+                            <li>
+                                <span><a asp-area="" asp-controller="Home" asp-action="product_live" asp-route-name="鯰魚" class="tree-text-node">鯰魚</a></span>
+                            </li>
+                            <li>
+                                <span><a asp-area="" asp-controller="Home" asp-action="product_live" asp-route-name="慈鯛" class="tree-text-node">慈鯛</a></span>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span>
+                            <a asp-area="" asp-controller="Home" asp-action="product_group" asp-route-type="設備" class="tree-text-title">周邊設備</a> @* 產生Home/product-group?kind=設備 *@
+                        </span>
+                        <ul>
+                            <li>
+                                <span><a asp-area="" asp-controller="Home" asp-action="product_devic" asp-route-name="打氣機" class="tree-text-node">打氣機</a></span>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <span>
+                            <a asp-area="" asp-controller="Home" asp-action="product_group" asp-route-type="飼料" class="tree-text-title">飼料</a> @* 產生Home/product-group?kind=活體 *@
+                        </span>
+                        <ul>
+                            <li>
+                                <span><a asp-area="" asp-controller="Home" asp-action="product_feeds" asp-route-name="魚飼料" class="tree-text-node">魚飼料</a></span>
+                            </li>
+
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-10">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            </div>
+        </div>
+    </div>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - AquariumMVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/easyui/jquery.min.js"></script>
+    <script src="~/easyui/jquery.easyui.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    <script>
+        function confirmLogout() {
+            if (confirm("您确定要登出吗？")) {
+                window.location.href = '@Url.Action("Logout", "Home")';
+            }
+        }
+    </script>
+</body>
+</html>

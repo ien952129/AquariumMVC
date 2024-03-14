@@ -1,0 +1,48 @@
+﻿@model IEnumerable<AquariumMVC.DTO.allProductDTO>
+@{
+    ViewData["Title"] = "editProduct";
+    Layout = "~/Views/Shared/admin.cshtml";
+}
+
+<h1>editProduct</h1>
+<link href="~/css/styleindex.css" rel="stylesheet" />
+
+@if (ViewBag.msg != null)
+{
+    <script>
+        window.onload = function () {
+            var msg = "@Html.Raw(ViewBag.msg)";
+            alert(msg);
+
+        };
+    </script>
+}
+<div class="row gx-5">
+    @foreach (var item in Model)
+    {
+        <div class="col-lg-3">
+            <div class="thumbnail ">
+                <div class="fixed-size-grid-item">
+                    <img src="~/images/@item.Img" class="thumbnail-img">
+                </div>
+                <div class="caption ">
+                    <h2>@item.Name</h2>
+
+                    <p><a href="@Url.Action("editProductDetail", new { fPId = item.P_id, type = item.type })" class="btn btn-primary">編輯資料</a></p>
+                    @* <p><a href="@Url.Action("delete_Product")?pid=@item.P_id" class="btn btn-primary">刪除</a></p> *@
+                    <p><a href="#" onclick="confirm_delete(this)" data-pid="@item.P_id" class="btn btn-primary"> 刪除</a></p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<script>
+    function confirm_delete(buttonElement) {
+        var pid = buttonElement.getAttribute('data-pid');
+        if (confirm("您確定要刪除嗎？")) {
+            var url = '@Url.Action("delete_Product", "Back")' + '?pid=' + pid;
+            window.location.href = url;
+        }
+    }
+</script>
+

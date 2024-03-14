@@ -1,0 +1,127 @@
+﻿@model IEnumerable<AquariumMVC.Models.OrderDetail>
+
+@{
+    ViewData["Title"] = "Shopping_Car";
+    Layout = "~/Views/Shared/_Layout_member.cshtml";
+}
+
+
+<h1>購物車</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.Account)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Qty)
+            </th>
+            <th>項目金額</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.Account)
+            </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                <input type="number" class="qty-input" data-id="@item.id" data-price="@item.Price" value="@item.Qty" onchange="updateQuantityAndTotal(this)" min="1" />
+                
+            </td>
+            
+            <td>
+                <span class="line-total">@((item.Price * item.Qty).ToString())</span>
+                
+            </td>
+            <td>
+                <a href="@Url.Action("deleteProduct")?fId=@item.id" class="btn btn-secondary" onclick="return confirmDelete();">刪除</a>
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<label>總金額:</label>
+<span id="totalAmount">0</span>
+<div><a class="btn btn-secondary" onclick="gocheck()">結帳</a></div>
+
+<script>
+    window.onload = function () {
+        var lineTotals = document.getElementsByClassName('line-total');
+        var inputs = document.getElementsByClassName('qty-input');
+
+        for (var i = 0; i < inputs.length; i++) {
+            var input = inputs[i];
+            var price = parseFloat(input.getAttribute('data-price'));
+            var qty = parseFloat(input.value);
+            var lineTotal = price * qty;
+
+            lineTotals[i].innerText = lineTotal.toFixed(2); // 更新每一行的小计
+        }
+
+        calculateTotal(); // 更新总金额
+    };
+    function updateQuantityAndTotal(inputElement) {
+        var itemId = inputElement.getAttribute('data-id');
+        var price = parseFloat(inputElement.getAttribute('data-price'));
+        var newQuantity = parseFloat(inputElement.value);
+
+        // 更新行小计
+        var lineTotalElement = inputElement.closest('tr').querySelector('.line-total');
+        lineTotalElement.innerText = (price * newQuantity).toFixed(2);
+
+        // 更新总金额
+        calculateTotal();
+
+        // 发送 AJAX 请求更新数据库
+        $.ajax({
+            url: '/Home/UpdateQuantity',
+            type: 'POST',
+            data: { id: itemId, quantity: newQuantity },
+
+        });
+    }
+
+    function calculateTotal() {
+        var inputs = document.getElementsByClassName('qty-input');
+        var total = 0;
+        for (var i = 0; i < inputs.length; i++) {
+            var input = inputs[i];
+            var price = parseFloat(input.getAttribute('data-price'));
+            var qty = parseFloat(input.value);
+            total += price * qty;
+        }
+        document.getElementById('totalAmount').innerText =  total.toFixed(2);
+
+    }
+    function confirmDelete() {
+        return confirm('您确定要删除这项吗？');
+    }
+    function gocheck(){
+        var total = document.getElementById('totalAmount').innerText;
+        var url = '@Url.Action("goCheck", "Home")' + '?total=' + total ;
+        window.location.href = url;
+    }
+</script>
+
+

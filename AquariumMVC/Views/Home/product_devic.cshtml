@@ -1,0 +1,27 @@
+﻿@model IEnumerable<AquariumMVC.Models.Device>
+
+@{
+    ViewData["Title"] = "product_devic";
+    Layout = "~/Views/Shared/" + @ViewBag.layout;
+}
+
+<h1 style="font-weight:600">@ViewBag.name</h1>
+
+<div class="row gx5">
+    @foreach (var item in Model)
+    {
+        <div class="col-lg-3">
+            <div class="thumbnail ">
+                <div class="fixed-size-grid-item">
+                    <img src="~/images/@item.Img" class="thumbnail-img">
+                </div>
+                <div class="caption ">
+                    <h2>@item.Name</h2>
+
+                    <p><a href="@Url.Action("ProductDetail")?fPId=@item.P_id" class="btn btn-primary">詳細資料</a></p>
+
+                </div>
+            </div>
+        </div>
+    }
+</div>

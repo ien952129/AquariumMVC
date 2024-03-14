@@ -1,0 +1,55 @@
+﻿@model IEnumerable<AquariumMVC.Models.OrderDetail>
+
+@{
+    ViewData["Title"] = "order_content";
+    Layout = "~/Views/Shared/_Layout_member.cshtml";
+}
+
+<h1>order_content</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.Account)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Qty)
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.Account)
+            </td>
+           
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Qty)
+            </td>
+            
+            
+        </tr>
+}
+    </tbody>
+    <label><h1>總價格:@ViewBag.total_price</h1></label>
+</table>

@@ -1,0 +1,78 @@
+﻿@model AquariumMVC.Models.Order
+
+@{
+    ViewData["Title"] = "confirm";
+    Layout = "~/Views/Shared/_Layout_member.cshtml";
+}
+
+<h1>confirm</h1>
+@if (ViewBag.mes != null)
+{
+    <script>
+        window.onload = function () {
+            var msg = "@Html.Raw(ViewBag.mes)";
+            if (msg == '購買失敗') {
+                alert(msg);
+                window.location.href = '@Url.Action("goCheck", "Home")';
+            }
+            else {
+                alert(msg);
+                window.location.href = '@Url.Action("Index", "Home")';
+            }
+        };
+    </script>
+}
+<div>
+    <h4>Order</h4>
+    <hr />
+    <dl class="row">
+        
+        <dt class = "col-sm-2">
+            帳號
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Account)
+        </dd>
+        <dt class = "col-sm-2">
+            收件人
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Receiver)
+        </dd>
+        <dt class = "col-sm-2">
+            收件人電話
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ReceiverTel)
+        </dd>
+        <dt class = "col-sm-2">
+            地址
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+        <dt class = "col-sm-2">
+            日期
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Date)    
+        </dd>
+        <dt class = "col-sm-2">
+            金額
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.total_price)
+        </dd>
+    </dl>
+</div>
+
+<form asp-action="ConfirmOrder" method="post">
+    <input type="hidden" name="Receiver" value="@Html.DisplayFor(model => model.Receiver)" />
+    <input type="hidden" name="ReceiverTel" value="@Html.DisplayFor(model => model.ReceiverTel)" />
+    <input type="hidden" name="Address" value="@Html.DisplayFor(model => model.Address)" />
+    <input type="hidden" name="total_price" value="@Html.DisplayFor(model => model.total_price)" />
+    <input type="hidden" name="Account" value="@Html.DisplayFor(model => model.Account)" />
+    <input type="hidden" name="Date" value="@Html.DisplayFor(model => model.Date)" />
+    <input type="submit" value="確認" />
+    <a asp-action="goCheck">返回輸入</a>
+</form>

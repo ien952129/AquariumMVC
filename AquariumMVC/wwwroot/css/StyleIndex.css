@@ -1,0 +1,27 @@
+﻿.thumbnail {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.fixed-size-grid-item {
+    flex: 1 0 auto;
+    width: 100%;
+    max-height: 400px; /* 調整圖片容器的最大高度 */
+    overflow: hidden;
+}
+
+.thumbnail-img {
+    width: 100%;
+    height: auto; /* 讓圖片高度根據寬度自動調整以保持原始比例 */
+    object-fit: contain; /* 保持圖片比例並完整顯示在容器內 */
+}
+
+.caption {
+    padding: 15px;
+}
+
+h2{
+    font-size:18px;
+}
+

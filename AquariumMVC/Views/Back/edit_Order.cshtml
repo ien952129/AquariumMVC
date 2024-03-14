@@ -1,0 +1,52 @@
+﻿@model AquariumMVC.DTO.orderDTO
+@{
+    ViewData["Title"] = "edit_Order";
+    Layout = "~/Views/Shared/admin.cshtml";
+}
+
+@if (ViewBag.msg != null)
+{
+    <script>
+        window.onload = function () {
+            var msg = "@Html.Raw(ViewBag.msg)";
+            alert(msg);
+
+        };
+    </script>
+}
+
+<h1>Edit Oder</h1>
+
+<form asp-action="edit_Order">
+    <div class="form-group">
+        <label asp-for="OrderGuid" class="control-label"></label>
+        <input asp-for="OrderGuid" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Account" class="control-label"></label>
+        <input asp-for="Account" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Receiver" class="control-label"></label>
+        <input asp-for="Receiver" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="ReceiverTel" class="control-label"></label>
+        <input asp-for="ReceiverTel" class="form-control" type="tel" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Address" class="control-label"></label>
+        <input asp-for="Address" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="total_price" class="control-label"></label>
+        <input asp-for="total_price" class="form-control" type="number" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Date" class="control-label"></label>
+        <input asp-for="Date" class="form-control" type="datetime" />
+    </div>
+    
+        <input type="submit" value="Save" class="btn btn-primary" />
+</form>
+

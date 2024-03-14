@@ -1,0 +1,109 @@
+﻿@model IEnumerable<AquariumMVC.Models.alldetail>
+
+@{
+    ViewData["Title"] = "ProductDetail";
+    Layout = "~/Views/Shared/" + @ViewBag.layout;
+}
+
+
+<h1>ProductDetail</h1>
+
+
+@if (ViewBag.Message != null)
+{
+    <script>
+        window.onload = function () {
+            var msg = "@Html.Raw(ViewBag.Message)"; 
+            if (msg == '請先登入') {
+                alert(msg);
+                window.location.href = '/Home/Login';
+            }
+            else {
+                alert(msg);
+            }
+        };
+    </script>
+}
+
+@foreach (var group in Model.GroupBy(item => item.P_id))
+{
+    <div class="card">
+        <div class="card-body">
+            <div>
+                <img src="@Url.Content("~/images/" + group.First().Img)" alt="Product Image" style="max-width: 250px; height: auto;">
+            </div>
+            <h5 class="card-title">@group.First().Name</h5>
+            
+            <p class="card-text">
+                <strong>Memo:</strong> @group.First().Memo<br>
+                
+            </p>
+            <div>
+                <strong>尺寸:</strong>
+                <select class="sizeSelect" onchange="updatePrice(this)">
+                    @foreach (var item in group)
+                    {
+                        <option value="@item.Price" data-price="@item.Price" data-aid="@item.A_id" data-pid="@item.P_id">@item.Size</option>
+                    }
+                </select>
+            </div>
+            <div>
+                <strong>單價:</strong> <span class="priceDisplay">@group.First().Price</span>
+                @* <strong>A_id:</strong> <span class="aidDisplay">@group.First().A_id</span> *@
+            </div>
+            <div>
+                <strong>數量:</strong> <input type="number" name="amount" class="amount-input" value="1" />
+                @* <strong>A_id:</strong> <span class="aidDisplay">@group.First().A_id</span> *@
+            </div>
+            
+            <!-- 操作按钮 -->
+            <a href="javascript:void(0);"
+               class="btn btn-primary add-to-cart"
+               data-pid="@group.Key"
+               data-aid="@group.First().A_id"
+               onclick="addShoppingCar(this)">
+                加進購物車
+            </a>
+            
+        </div>
+    </div>
+}
+
+<script>
+    function updatePrice(selectElement) {
+        var selectedOption = selectElement.options[selectElement.selectedIndex];
+        var price = selectedOption.getAttribute('data-price');
+        var priceDisplay = selectElement.closest('.card-body').querySelector('.priceDisplay');
+        var pId = selectedOption.getAttribute('data-pid');
+        var aId = selectedOption.getAttribute('data-aid');
+        
+        @* var aidDisplay = selectElement.closest('.card-body').querySelector('.aidDisplay'); *@
+
+        priceDisplay.textContent = price;
+
+        @* aidDisplay.textContent = aId; *@
+        
+        @* // 更新购物车按钮的链接
+        var addToCartButton = selectElement.closest('.card-body').querySelector('.add-to-cart');
+        var newHref = '@Url.Action("addShoppingCar", "Home")' + '?pid=' + pId + '&aid=' + aId+'&amount='+;
+        addToCartButton.href = newHref; *@
+        var addToCartButton = selectElement.closest('.card-body').querySelector('.add-to-cart');
+        addToCartButton.setAttribute('data-pid', pId);
+        addToCartButton.setAttribute('data-aid', aId);
+    }
+
+    function addShoppingCar(buttonElement) {
+        var pId = buttonElement.getAttribute('data-pid');
+        var aId = buttonElement.getAttribute('data-aid');
+        var amount = buttonElement.closest('.card-body').querySelector('.amount-input').value;
+
+        var url = '@Url.Action("addShoppingCar", "Home")' + '?pid=' + pId + '&aid=' + aId + '&amount=' + amount;
+        window.location.href = url;
+
+    }
+
+</script>
+
+
+
+

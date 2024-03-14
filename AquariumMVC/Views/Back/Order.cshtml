@@ -1,0 +1,79 @@
+﻿@model IEnumerable<AquariumMVC.DTO.orderDTO>
+
+@{
+    ViewData["Title"] = "Order";
+    Layout = "~/Views/Shared/admin.cshtml";
+}
+
+<h1>Order</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderGuid)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Account)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Receiver)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceiverTel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.total_price)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderGuid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Account)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Receiver)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReceiverTel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.total_price)
+            </td>
+            <td>
+                <a asp-action="edit_Order" asp-route-id="@item.O_id">Edit</a> |
+                <a asp-action="Details_order" asp-route-guid="@item.OrderGuid">Details</a> |
+                <a href="#" onclick="confirm_delete(this)" data-aid="@item.O_id"> Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<script>
+    function confirm_delete(buttonElement) {
+        var acc = buttonElement.getAttribute('data-aid');
+        if (confirm("您確定要刪除嗎？")) {
+            var url = '@Url.Action("delete_Order", "Back")' + '?id=' + acc;
+            window.location.href = url;
+        }
+    }
+</script>

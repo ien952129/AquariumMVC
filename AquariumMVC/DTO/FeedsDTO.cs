@@ -1,0 +1,34 @@
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+
+namespace AquariumMVC.DTO
+{
+    public class FeedsDTO
+    {
+        public int F_id { get; set; }
+
+       
+        public string P_id { get; set; }
+
+       
+        public string Type { get; set; }
+
+        
+        public string Name { get; set; }
+
+        
+        public string Kind { get; set; }
+
+        
+        public string Size { get; set; }
+
+        public int? Price { get; set; }
+
+        public int? Amount { get; set; }
+
+        public string Memo { get; set; }
+
+        
+        public string Img { get; set; }
+    }
+}
